@@ -16,3 +16,7 @@ services:
     ports:
       - 6390:6379
     container_name: guestbook2_redis_5
+
+  rabbitmq:
+    image: rabbitmq:3.7-management
+    ports: [5672, 15672]
