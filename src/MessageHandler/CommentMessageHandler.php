@@ -6,6 +6,7 @@ namespace App\MessageHandler;
 
 use App\Message\CommentMessage;
 use App\Repository\CommentRepository;
+use App\SpamChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
@@ -15,10 +16,10 @@ class CommentMessageHandler implements MessageHandlerInterface
     private $entityManager;
     private $commentRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, CommentRepository $commentRepository)
+    public function __construct(EntityManagerInterface $entityManager, CommentRepository $commentRepository, SpamChecker $spamChecker)
     {
         $this->entityManager = $entityManager;
-        $this->spamChecker = null; // Здесь должен быть класс, который я проигнорировал ранее, что бы не регистрироваться в стороннем сервисе
+        $this->spamChecker = $spamChecker; // Здесь должен быть класс, который я проигнорировал ранее, что бы не регистрироваться в стороннем сервисе
         $this->commentRepository = $commentRepository;
     }
 
@@ -30,11 +31,11 @@ class CommentMessageHandler implements MessageHandlerInterface
             return;
         }
 
-//        if (2 === $this->spamChecker->getSpamScore($comment, $message->getContext())) {
-//            $comment->setState('spam');
-//        } else {
+        if (2 === $this->spamChecker->getSpamScore($comment, $message->getContext())) {
+            $comment->setState('spam');
+        } else {
             $comment->setState('published');
-//        }
+        }
 
         $this->entityManager->flush();
     }
