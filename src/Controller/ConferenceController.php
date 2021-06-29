@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Comment;
 use App\Entity\Conference;
 use App\Form\CommentFormType;
