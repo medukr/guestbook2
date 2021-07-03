@@ -7,6 +7,6 @@ Encore.setOutputPath('public/')
     .addEntry('app', './src/app.js')
     .enablePreactPreset()
     .enableSingleRuntimeChunk()
-    .addPlugin(new HtmlWebpackPlugin({ template: 'src/index.js', alwaysWriteToDisk: true }));
+    .addPlugin(new HtmlWebpackPlugin({ template: 'src/index.ejs', alwaysWriteToDisk: true }));
 
 module.exports = Encore.getWebpackConfig();
